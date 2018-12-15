@@ -34,8 +34,7 @@ import java.util.Map;
 
 public class signup extends AppCompatActivity implements View.OnClickListener {
 
-    EditText email;
-    EditText password;
+    EditText email, password, name, surname, phone, introduction;
     Button register,ret_login;
     private RequestQueue requestQueue;
     SharedPreferences prefs;
@@ -58,6 +57,10 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
         ret_login = (Button) findViewById(R.id.ret_login);
         email = (EditText) findViewById(R.id.email_register);
         password = (EditText) findViewById(R.id.password_register);
+        name = (EditText) findViewById(R.id.name);
+        surname = (EditText) findViewById(R.id.surname);
+        phone = (EditText) findViewById(R.id.phone);
+        introduction = (EditText) findViewById(R.id.introduction);
         status1="0";
         register.setOnClickListener(this);
         ret_login.setOnClickListener(this);
@@ -112,6 +115,13 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
                 parameters.put("email", username);
                 parameters.put("password", password);
                 parameters.put("project", 1);
+                parameters.put("name", this.name.getText().toString().trim());
+                parameters.put("surname", this.surname.getText().toString().trim());
+                parameters.put("desription", this.introduction.getText().toString().trim());
+                parameters.put("phone", this.phone.getText().toString().trim());
+                parameters.put("email_verified", 0);
+                parameters.put("phone_verified", 0);
+
                 Toast.makeText(getApplicationContext(), parameters.toString(), Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
 
@@ -389,7 +399,8 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.register:
-                checkUser(view);
+                //checkUser(view);
+                registerUser(view);
                 //finish();
                 //finish();
                 break;
