@@ -19,7 +19,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".signup" />
-        <activity android:name=".OnRegister"></activity>
+        <activity android:name=".OnRegister" />
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"></activity>
     </application>
 
 </manifest>

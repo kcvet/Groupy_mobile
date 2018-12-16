@@ -206,7 +206,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startAct(Boolean succesful){
-        if(succesful==true){  Toast.makeText(getApplicationContext(), "succesful", Toast.LENGTH_SHORT).show(); }
+        if(succesful==true){
+            Intent intent = new Intent(getApplicationContext(), Main2Activity.class);
+            startActivity(intent);
+        }
         //else Toast.makeText(getApplicationContext(), "unsuccesful", Toast.LENGTH_SHORT).show();
     }
 
