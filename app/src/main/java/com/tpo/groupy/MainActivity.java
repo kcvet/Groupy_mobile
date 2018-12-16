@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        String url = "http://grupyservice.azurewebsites.net/UserService.svc/";
+        String url = "http://grupyservice.azurewebsites.net/UserService.svc/login/";
 
 
         JsonObjectRequest arrReq = new JsonObjectRequest(Request.Method.GET, url,null,
@@ -148,10 +148,10 @@ public class MainActivity extends AppCompatActivity {
                         // The user does have repos, so let's loop through them all
                         //JSONObject obj = response;
                         try{
-                            Integer status=response.getInt("USER_ID");
+                            Integer status=response.getInt("ID_USER");
                             if(status>0) succesful=true;
                             Toast.makeText(getApplicationContext(), status.toString(), Toast.LENGTH_SHORT).show();
-                            editor.putInt("userid", status);
+                            editor.putInt("ID_USER", status);
                             editor.commit();
                             startAct(succesful);
                         }catch (JSONException e){
