@@ -8,4 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style
+        name="MyToolbarTheme"
+        parent="@style/Theme.AppCompat">
+        <item name="titleTextColor">@color/colorAccent</item>
+        <item name="android:windowTitleSize">20dp</item>
+    </style>
+    <style name="MyTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+    <style name="TextAppearance.AppCompat.Widget.ActionBar.Title." parent="Widget.AppCompat.ActionBar">
+
+    </style>
+
 </resources>
