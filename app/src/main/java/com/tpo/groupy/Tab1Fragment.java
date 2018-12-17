@@ -2,6 +2,7 @@ package com.tpo.groupy;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,36 +19,50 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Tab1Fragment extends Fragment {
     private RecyclerView recyclerView;
     private CardAdapter adapter;
     private List<Card> albumList;
+    private RequestQueue requestQueue;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_one, container, false);
         Toolbar toolbar = (Toolbar) view. findViewById(R.id.toolbar);
 
-
-
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
         albumList = new ArrayList<>();
         adapter = new CardAdapter(getActivity(), albumList);
+        requestQueue = Volley.newRequestQueue(getActivity());
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-        prepareAlbums();
+        getGroupData();
 
         try {
             Glide.with(this).load(R.drawable.statistics).into((ImageView) view.findViewById(R.id.backdrop));
@@ -59,49 +74,27 @@ public class Tab1Fragment extends Fragment {
     /**
      * Adding few albums for testing
      */
-    private void prepareAlbums() {
+    private void prepareAlbums(JSONArray response) {
+
+        String name;
+        String number_of_people;
+        String photo;
         int[] covers = new int[]{
-                R.drawable.home,
-                R.drawable.home,
-                R.drawable.home,
-                R.drawable.home,
-                R.drawable.home,
-                R.drawable.home,
-                R.drawable.home,
-                R.drawable.home,
-                R.drawable.home,
                 R.drawable.home,
                 R.drawable.home};
 
-        Card a = new Card("True Romance", 13, covers[0]);
-        albumList.add(a);
-
-        a = new Card("Xscpae", 8, covers[1]);
-        albumList.add(a);
-
-        a = new Card("Maroon 5", 11, covers[2]);
-        albumList.add(a);
-
-        a = new Card("Born to Die", 12, covers[3]);
-        albumList.add(a);
-
-        a = new Card("Honeymoon", 14, covers[4]);
-        albumList.add(a);
-
-        a = new Card("I Need a Doctor", 1, covers[5]);
-        albumList.add(a);
-
-        a = new Card("Loud", 11, covers[6]);
-        albumList.add(a);
-
-        a = new Card("Legend", 14, covers[7]);
-        albumList.add(a);
-
-        a = new Card("Hello", 11, covers[8]);
-        albumList.add(a);
-
-        a = new Card("Greatest Hits", 17, covers[9]);
-        albumList.add(a);
+        for(int i = 0; i < response.length(); i ++){
+            try{
+                JSONObject jsonobject = response.getJSONObject(i);
+                name = jsonobject.getString("name");
+                number_of_people = jsonobject.getString("number_of_people");
+                photo = jsonobject.getString("group_photo");
+                Card a = new Card(name, Integer.parseInt(number_of_people), covers[0]);
+                albumList.add(a);
+            }catch(Exception e){
+                System.out.println("NAPAKA");
+            }
+        }
 
         adapter.notifyDataSetChanged();
     }
@@ -152,6 +145,76 @@ public class Tab1Fragment extends Fragment {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
+
+    /**
+     * Get Data
+     */
+    private void getGroupData(){
+
+        String url = "http://grupyservice.azurewebsites.net/GroupService.svc/";
+
+
+        JsonArrayRequest arrReq = new JsonArrayRequest(Request.Method.GET, url,null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // Check the length of our response (to see if the user has any repos)
+                        // The user does have repos, so let's loop through them all
+                        //JSONObject obj = response;
+                        try{
+                            JSONObject jsonobject = response.getJSONObject(0);
+                            String name = jsonobject.getString("group_photo");
+                            System.out.println(name);
+                            prepareAlbums(response);
+                            Toast.makeText(getActivity(),response.toString(), Toast.LENGTH_SHORT).show();
+
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+                },
+
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // If there a HTTP error then add a note to our repo list.
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+
+                        //setRepoListText(String.valueOf(a));
+                        Log.e("Volley", error.toString());
+                    }
+
+
+                }
+
+        ){
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> paramsValue = new HashMap<String, String>();
+                // paramsValue.put("abc@abc.com", new String("geslo123"));
+                return paramsValue;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                return headers;
+            }
+        };
+        // Add the request we just defined to our request queue.
+        // The request queue will automatically handle the request as soon as it can.
+
+        requestQueue.add(arrReq);
+
+
+    }
 }
 
 
