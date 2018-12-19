@@ -4,12 +4,15 @@ public class Card {
     private String name;
     private int numOfSongs;
     private int thumbnail;
+    // State of the item
+    private boolean expanded;
 
 
     public Card(String name, int numOfSongs, int thumbnail) {
         this.name = name;
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
+
     }
 
     public String getName() {
@@ -34,5 +37,13 @@ public class Card {
 
     public void setThumbnail(int thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
+
+    public boolean isExpanded() {
+        return expanded;
     }
 }

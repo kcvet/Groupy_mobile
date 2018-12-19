@@ -2,6 +2,7 @@ package com.tpo.groupy;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,14 +53,14 @@ public class Tab1Fragment extends Fragment {
         Toolbar toolbar = (Toolbar) view. findViewById(R.id.toolbar);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         albumList = new ArrayList<>();
         adapter = new CardAdapter(getActivity(), albumList);
         requestQueue = Volley.newRequestQueue(getActivity());
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         getGroupData();
@@ -164,9 +165,7 @@ public class Tab1Fragment extends Fragment {
                         try{
                             JSONObject jsonobject = response.getJSONObject(0);
                             String name = jsonobject.getString("group_photo");
-                            System.out.println(name);
                             prepareAlbums(response);
-                            Toast.makeText(getActivity(),response.toString(), Toast.LENGTH_SHORT).show();
 
                         }catch (Exception e){
                             e.printStackTrace();
@@ -215,6 +214,7 @@ public class Tab1Fragment extends Fragment {
 
 
     }
+
 }
 
 

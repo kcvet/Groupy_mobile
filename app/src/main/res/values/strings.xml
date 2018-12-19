@@ -9,5 +9,6 @@
     <string name="action_add_favourite">Join group</string>
     <string name="action_play_next">Rate group</string>
     <string name="backdrop_title">LOVE PEOPLE</string>
+    <string name="details">Here you can read more about each group!</string>
     <string name="backdrop_subtitle">This season top 20 albums</string>
 </resources>
