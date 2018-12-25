@@ -7,4 +7,5 @@
     <color name="primary_material_dark">#460c40</color>
     <color name="background_material_dark">#210c3a</color>
     <color name="accent_material_dark">#ff40eb</color>
+    <color name="background_login">#a566b8</color>
 </resources>

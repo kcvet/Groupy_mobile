@@ -70,8 +70,6 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
     private void registerUser(View view){
 
 
-
-
         if(!(false)) {
             final String username = this.email.getText().toString().trim();
             final String password = MD5(this.password.getText().toString().trim());
@@ -102,14 +100,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
             }
 
 
-            //this.status.setText("Dodajam v " + URL);
-            //JSONObject jsonBody = new JSONObject();
-            //Map<String, String> params = new HashMap();
-            //params.put("email", username);
-            //params.put("password", password);
-
             JSONObject parameters = new JSONObject();
-            //Toast.makeText(getApplicationContext(),parameters.toString(), Toast.LENGTH_SHORT).show();
 
             try {
                 parameters.put("email", username);
@@ -117,7 +108,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
                 parameters.put("project", 1);
                 parameters.put("name", this.name.getText().toString().trim());
                 parameters.put("surname", this.surname.getText().toString().trim());
-                parameters.put("desription", this.introduction.getText().toString().trim());
+                parameters.put("introduction", this.introduction.getText().toString().trim());
                 parameters.put("phone", this.phone.getText().toString().trim());
                 parameters.put("email_verified", 0);
                 parameters.put("phone_verified", 0);

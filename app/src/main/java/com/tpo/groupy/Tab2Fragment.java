@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,7 +85,7 @@ public class Tab2Fragment extends Fragment {
             public void onClick(View v) {
 
                 if(editable == 0) setEditable();
-                else updateUserInfo();
+                else updateUserInfo(v);
             }
         });
 
@@ -94,7 +95,7 @@ public class Tab2Fragment extends Fragment {
 
     }
 
-    private void updateUserInfo() {
+    private void updateUserInfo(View v) {
         introduction.setFocusable(false);
         introduction.setClickable(false);
         phone.setFocusable(false);
@@ -105,6 +106,7 @@ public class Tab2Fragment extends Fragment {
         sex.setFocusable(false);
         user_settings.setText("Edit info");
 
+        updateUser(v);
         editable = 0;
     }
     private void setEditable(){
@@ -144,6 +146,15 @@ public class Tab2Fragment extends Fragment {
                             String sex_r = response.getString("sex");
                             String phone_r = response.getString("phone");
                             String profile_pic_r = response.getString("profile_pic");
+
+                            editor.putString("name", name_r);
+                            editor.putString("surname", surname_r);
+                            editor.putString("introduction", introduction_r);
+                            editor.putString("sex", sex_r);
+                            editor.putString("phone", phone_r);
+                            editor.putString("profile_pic", profile_pic_r);
+
+                            editor.commit();
 
 
 
@@ -234,5 +245,88 @@ public class Tab2Fragment extends Fragment {
             bmImage.setImageBitmap(result);
         }
     }
+
+
+    //TODO save every user info, and send every thing, or it gets deleted
+    private void updateUser(View view){
+
+            JSONObject parameters = new JSONObject();
+            final String em = prefs.getString("user", "none");
+            final String pass = prefs.getString("userpwd", "none");
+            final int id = prefs.getInt("ID_USER", 0);
+            final String profile_pic = prefs.getString("profile_pic", "https://www.chaarat.com/wp-content/uploads/2017/08/placeholder-user.png");
+            final String name = prefs.getString("name", "");
+            final String surname = prefs.getString("surname", "");
+            final String sex = prefs.getString("sex", "non-binary");
+
+            try {
+                parameters.put("ID_USER", id);
+                parameters.put("email", this.email.getText().toString().trim());
+                parameters.put("introduction", this.introduction.getText().toString().trim());
+                parameters.put("phone", this.phone.getText().toString().trim());
+                parameters.put("profile_pic", profile_pic);
+                parameters.put("name", name);
+                parameters.put("surname", surname);
+                parameters.put("sex", sex);
+                parameters.put("password", pass);
+                parameters.put("phone_verified", 0);
+                parameters.put("email_verified", 0);
+
+            } catch (JSONException e) {
+
+
+            }
+            //final String mRequestBody = jsonBody.toString();
+            //status.setText(mRequestBody);
+
+            String URL = "http://grupyservice.azurewebsites.net/UserService.svc/";
+            JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.PUT, URL, parameters, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+
+                    try {
+
+                        String status = response.get("status").toString();
+
+                        Toast.makeText(getActivity(), "You have succesfully updated your user profile", Toast.LENGTH_LONG).show();
+
+
+                    } catch (JSONException e) {
+                        //Toast.makeText(getApplicationContext(),e.toString(), Toast.LENGTH_SHORT).show();
+                        // If there is an error then output this to the logs.
+
+                        Log.e("Volley", "Invalid JSON Object.");
+                    }
+
+                    Log.i("LOG_VOLLEY", response.toString());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    Toast.makeText(getActivity(), "There was an error while updating your data", Toast.LENGTH_SHORT).show();
+                    Log.e("LOG_VOLLEY", error.toString());
+                }
+            }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Authorization",em+":"+pass);
+                    return headers;
+                }
+            };
+
+            //Toast.makeText(getApplicationContext(),stringRequest.toString(), Toast.LENGTH_SHORT).show();
+            requestQueue.add(stringRequest);
+
+
+        }
 }
 

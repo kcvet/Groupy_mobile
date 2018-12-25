@@ -7,11 +7,12 @@
     tools:context=".signup">
 
     <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="495dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_login"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        tools:layout_editor_absoluteX="112dp"
+        tools:layout_editor_absoluteY="16dp">
 
         <EditText
             android:id="@+id/email_register"
@@ -19,7 +20,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColor="@android:color/background_light" />
 
         <EditText
             android:id="@+id/password_register"
@@ -27,7 +29,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColor="@android:color/background_light" />
 
         <EditText
             android:id="@+id/name"
@@ -35,7 +38,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="name"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="@android:color/background_light" />
 
         <EditText
             android:id="@+id/surname"
@@ -43,7 +47,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="surname"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="@android:color/background_light" />
 
         <EditText
             android:id="@+id/phone"
@@ -51,7 +56,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="phone"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:textColor="@android:color/background_light" />
 
         <EditText
             android:id="@+id/introduction"
@@ -59,24 +65,38 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="introduction"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:textColor="@android:color/background_light" />
 
         <Button
             android:id="@+id/register"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="register" />
+            android:background="@color/primary_dark_material_dark_1"
+            android:text="register"
+            android:textColor="@android:color/background_light" />
 
-        <TextView
-            android:id="@+id/textView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/ret_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="login" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already have an account? "
+                android:textColor="@android:color/background_light" />
+
+            <Button
+                android:id="@+id/ret_login"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/background_login"
+                android:text="login here"
+                android:textColor="@android:color/background_light" />
+        </LinearLayout>
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
