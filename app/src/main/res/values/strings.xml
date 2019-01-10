@@ -4,4 +4,11 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_add_favourite">Join group</string>
+    <string name="action_chat">Open chat</string>
+    <string name="backdrop_title">GRUPY MOBILE</string>
+    <string name="details">Here you can read more about each group!</string>
+    <string name="backdrop_subtitle">List of all groups</string>
 </resources>
