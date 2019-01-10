@@ -77,9 +77,7 @@ public class Tab1Fragment extends Fragment {
      */
     private void prepareAlbums(JSONArray response) {
 
-        String name;
-        String number_of_people;
-        String photo;
+        String name, group_description, number_of_people, photo, place_to_stay, place_to_visit;
         int[] covers = new int[]{
                 R.drawable.home,
                 R.drawable.home};
@@ -87,10 +85,15 @@ public class Tab1Fragment extends Fragment {
         for(int i = 0; i < response.length(); i ++){
             try{
                 JSONObject jsonobject = response.getJSONObject(i);
+                System.out.println(jsonobject);
                 name = jsonobject.getString("name");
                 number_of_people = jsonobject.getString("number_of_people");
+                group_description = jsonobject.getString("description");
+                place_to_stay = jsonobject.getString("place_to_stay");
+                place_to_visit = jsonobject.getString("place_to_visit");
                 photo = jsonobject.getString("group_photo");
-                Card a = new Card(name, Integer.parseInt(number_of_people), covers[0]);
+
+                Card a = new Card(name, Integer.parseInt(number_of_people), covers[0], group_description, place_to_visit, place_to_stay, photo);
                 albumList.add(a);
             }catch(Exception e){
                 System.out.println("NAPAKA");

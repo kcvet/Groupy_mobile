@@ -2,6 +2,7 @@ package com.tpo.groupy;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -44,13 +45,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
     private RequestQueue requestQueue;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView title, count;
+        public TextView title, count, descript;
         public ImageView thumbnail, overflow;
 
         public MyViewHolder(View view) {
             super(view);
             requestQueue = Volley.newRequestQueue(view.getContext());
             title = (TextView) view.findViewById(R.id.title);
+            descript = (TextView) view.findViewById(R.id.sub_item_description);
             count = (TextView) view.findViewById(R.id.count);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
             overflow = (ImageView) view.findViewById(R.id.overflow);
@@ -72,7 +74,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         private void bind(Card album) {
             boolean expanded = album.isExpanded();
             subItem.setVisibility(expanded ? View.VISIBLE : View.GONE);
-
+            descript.setText("Description: "+album.getDescription()+"\n"+
+                    "Place to stay: "+album.getPlace_to_stay()+"\n"+"Place to visit: "+album.getPlace_to_visit());
             title.setText(album.getName());
             count.setText(album.getNumOfSongs() + " people");
 
@@ -112,7 +115,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
             }
         });
         // loading album cover using Glide library
-        Glide.with(mContext).load(album.getThumbnail()).into(holder.thumbnail);
+        Glide.with(mContext).load(album.getPhoto()).into(holder.thumbnail);
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +154,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
                     return true;
                 case R.id.action_play_next:
                     Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
+                    Intent myIntent = new Intent(mContext, ChatActivity.class);
+                    mContext.startActivity(myIntent);
 
                     return true;
                 default:
