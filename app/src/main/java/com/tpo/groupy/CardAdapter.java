@@ -139,8 +139,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.card_menu, popup.getMenu());
         popup.setOnMenuItemClickListener(new MyMenuItemClickListener(id));
-        System.out.print("aahahahahahhahahaha");
-        System.out.print(id);
         popup.show();
     }
 
@@ -151,8 +149,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         int id;
 
         public MyMenuItemClickListener(int id) {
-            System.out.print("aahahahahahhahahaha");
-            System.out.print(id);
+
             this.id = id;
         }
 
@@ -230,8 +227,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
         try {
 
-            parameters.put("GROUP_ID", group_id);
-            parameters.put("USER_ID", user_id);
+            parameters.put("ID_GROUP", group_id);
+            parameters.put("ID_USER", user_id);
 
 
 
