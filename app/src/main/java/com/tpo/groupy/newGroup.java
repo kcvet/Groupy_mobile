@@ -66,6 +66,7 @@ public class newGroup extends AppCompatActivity{
             parameters.put("number_of_people", number_of_people.getText().toString());
             parameters.put("hosted_by_user_id", user_id);
             parameters.put("created_by_user_id", user_id);
+            parameters.put("project", 1); //change here for piknik project to 0
 
 
 

@@ -155,7 +155,7 @@ public class Tab1Fragment extends Fragment {
      */
     private void getGroupData(){
 
-        String url = "http://grupyservice.azurewebsites.net/GroupService.svc/";
+        String url = "http://grupyservice.azurewebsites.net/GroupService.svc/project/1";
 
 
         JsonArrayRequest arrReq = new JsonArrayRequest(Request.Method.GET, url,null,

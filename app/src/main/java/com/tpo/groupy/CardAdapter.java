@@ -153,10 +153,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
                     joinGroup();
                     return true;
                 case R.id.action_play_next:
-                    Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
-                    Intent myIntent = new Intent(mContext, ChatActivity.class);
+                    Toast.makeText(mContext, "Chat away", Toast.LENGTH_SHORT).show();
+                    Intent myIntent = new Intent(mContext, MessageListActivity.class);
                     mContext.startActivity(myIntent);
-
                     return true;
                 default:
             }
@@ -176,8 +175,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         ViewGroup.LayoutParams params = layout.getLayoutParams();
 // Changes the height and width to the specified *pixels*
         if(params.height == 770){
-            params.height = 1470;
-            ValueAnimator animator = ValueAnimator.ofInt(770, 1470);
+            params.height = 1270;
+            ValueAnimator animator = ValueAnimator.ofInt(770, 1270);
             animator.setDuration(1000);
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -192,7 +191,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         }
         else{
             params.height = 770;
-            ValueAnimator animator = ValueAnimator.ofInt(1470, 770);
+            ValueAnimator animator = ValueAnimator.ofInt(1270, 770);
             animator.setDuration(1000);
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 public void onAnimationUpdate(ValueAnimator animation) {
