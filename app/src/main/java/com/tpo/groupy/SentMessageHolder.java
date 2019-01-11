@@ -13,11 +13,11 @@ public class SentMessageHolder extends RecyclerView.ViewHolder {
         timeText = (TextView) itemView.findViewById(R.id.text_message_time);
     }
 
-    void bind(String message) {
+    void bind(String message, String date) {
         messageText.setText(message);
 
         // Format the stored timestamp into a readable String using method.
-        timeText.setText(Utils.formatDateTime(message.getCreatedAt()));
+        timeText.setText(date);
 
 
     }

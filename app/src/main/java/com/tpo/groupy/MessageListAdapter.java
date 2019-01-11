@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageListAdapter extends RecyclerView.Adapter {
@@ -15,9 +16,9 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
 
     private Context mContext;
-    private List<BaseMessage> mMessageList;
+    private ArrayList<BaseMessage> mMessageList;
 
-    public MessageListAdapter(Context context, List<BaseMessage> messageList) {
+    public MessageListAdapter(Context context, ArrayList<BaseMessage> messageList) {
         mContext = context;
         mMessageList = messageList;
     }
@@ -32,7 +33,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         BaseMessage message = (BaseMessage) mMessageList.get(position);
 
-        if (message.getSender().getUserId().equals(SendBird.getCurrentUser().getUserId())) {
+        if (message.getMessagetype() == 1) {
             // If the current user is the sender of the message
             return VIEW_TYPE_MESSAGE_SENT;
         } else {
@@ -66,10 +67,10 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
         switch (holder.getItemViewType()) {
             case VIEW_TYPE_MESSAGE_SENT:
-                ((SentMessageHolder) holder).bind(message.getMsg());
+                ((SentMessageHolder) holder).bind(message.getMsg(), message.getDate());
                 break;
             case VIEW_TYPE_MESSAGE_RECEIVED:
-                ((ReceivedMessageHolder) holder).bind(message);
+                ((ReceivedMessageHolder) holder).bind(message.getMsg(), message.getDate(), message.getName());
         }
     }
 
@@ -83,11 +84,11 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
         }
 
-        void bind(UserMessage message) {
-            messageText.setText(message.getMessage());
+        void bind(String message, String date) {
+            messageText.setText(message);
 
             // Format the stored timestamp into a readable String using method.
-            timeText.setText(Utils.formatDateTime(message.getCreatedAt()));
+            timeText.setText(date);
         }
     }
 
@@ -101,19 +102,19 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             messageText = (TextView) itemView.findViewById(R.id.text_message_body);
             timeText = (TextView) itemView.findViewById(R.id.text_message_time);
             nameText = (TextView) itemView.findViewById(R.id.text_message_name);
-            profileImage = (ImageView) itemView.findViewById(R.id.image_message_profile);
         }
 
-        void bind(UserMessage message) {
-            messageText.setText(message.getMessage());
+        void bind(String message, String date, String name) {
+            //set message text
+            messageText.setText(message);
 
-            // Format the stored timestamp into a readable String using method.
-            timeText.setText(Utils.formatDateTime(message.getCreatedAt()));
+            // Set date text
+            timeText.setText(date);
 
-            nameText.setText(message.getSender().getNickname());
+            // Set name of sender
+            nameText.setText(name);
 
-            // Insert the profile image from the URL into the ImageView.
-            Utils.displayRoundImageFromUrl(mContext, message.getSender().getProfileUrl(), profileImage);
+
         }
     }
 }

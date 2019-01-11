@@ -14,12 +14,12 @@ public class ReceivedMessageHolder extends RecyclerView.ViewHolder {
         nameText = (TextView) itemView.findViewById(R.id.text_message_name);
     }
 
-    void bind(String message) {
+    void bind(String message, String date, String name) {
         messageText.setText(message);
 
         // Format the stored timestamp into a readable String using method.
-        timeText.setText(Utils.formatDateTime(message.getCreatedAt()));
-        nameText.setText(message.getSender().getNickname());
+        timeText.setText(date);
+        nameText.setText(name);
 
     }
 }
