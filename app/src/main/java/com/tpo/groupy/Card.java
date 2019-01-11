@@ -2,13 +2,13 @@ package com.tpo.groupy;
 
 public class Card {
     private String name, description, place_to_visit, place_to_stay, photo;
-    private int numOfSongs;
+    private int numOfSongs, id;
     private int thumbnail;
     // State of the item
     private boolean expanded;
 
 
-    public Card(String name, int numOfSongs, int thumbnail, String description, String place_to_visit, String place_to_stay, String photo ) {
+    public Card(String name, int numOfSongs, int thumbnail, String description, String place_to_visit, String place_to_stay, String photo, int id ) {
         this.name = name;
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
@@ -16,6 +16,7 @@ public class Card {
         this.place_to_stay = place_to_stay;
         this.place_to_visit = place_to_visit;
         this.photo = photo;
+        this.id = id;
 
     }
 
@@ -62,4 +63,6 @@ public class Card {
     public boolean isExpanded() {
         return expanded;
     }
+
+    public int getID() { return id;}
 }
