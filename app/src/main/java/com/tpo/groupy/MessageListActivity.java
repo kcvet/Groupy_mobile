@@ -22,7 +22,11 @@ public class MessageListActivity extends AppCompatActivity {
         messageList.add(new BaseMessage("Kje pa jaz ljubim TPO", "13.1.2018", "Kevin", 1));
         messageList.add(new BaseMessage("OHH!, Da te nism slišov", "13.1.2018", "Peter", 2));
 
+        update();
 
+    }
+
+    public void update() {
         mMessageRecycler = (RecyclerView) findViewById(R.id.reyclerview_message_list);
         mMessageAdapter = new MessageListAdapter(this, messageList);
         mMessageRecycler.setLayoutManager(new LinearLayoutManager(this));
