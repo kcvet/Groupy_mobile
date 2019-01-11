@@ -1,6 +1,7 @@
 package com.tpo.groupy;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -46,7 +47,7 @@ public class Tab2Fragment extends Fragment {
 
     public TextView name;
     public int editable = 0; //to check if we make data editaable, or send it to update data
-    public Button user_settings;
+    public Button user_settings, newGroup;
     EditText email, phone, introduction;
     private RequestQueue requestQueue;
     SharedPreferences prefs;
@@ -66,6 +67,7 @@ public class Tab2Fragment extends Fragment {
         introduction= (EditText) view.findViewById(R.id.introduction);
         profile_pic = (ImageView)view.findViewById(R.id.profile_pic);
         user_settings = (Button)view.findViewById(R.id.user_settings);
+        newGroup = (Button)view.findViewById(R.id.newGroup);
         requestQueue = Volley.newRequestQueue(getActivity());
         String[] arraySpinner = new String[] {
                 "Male", "Female", "Non-binary"
@@ -86,6 +88,14 @@ public class Tab2Fragment extends Fragment {
 
                 if(editable == 0) setEditable();
                 else updateUserInfo(v);
+            }
+        });
+
+        newGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent intent = new Intent(getActivity(), newGroup.class);
+               startActivity(intent);
             }
         });
 
