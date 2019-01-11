@@ -3,6 +3,7 @@ package com.tpo.groupy;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -23,10 +24,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -43,6 +46,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
     LinearLayout layout;
     private View subItem;
     private RequestQueue requestQueue;
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title, count, descript;
@@ -120,7 +125,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopupMenu(holder.overflow);
+                showPopupMenu(holder.overflow, album.getID());
             }
         });
     }
@@ -128,12 +133,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
     /**
      * Showing popup menu when tapping on 3 dots
      */
-    private void showPopupMenu(View view) {
+    private void showPopupMenu(View view, int id) {
         // inflate menu
         PopupMenu popup = new PopupMenu(mContext, view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.card_menu, popup.getMenu());
-        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
+        popup.setOnMenuItemClickListener(new MyMenuItemClickListener(id));
+        System.out.print("aahahahahahhahahaha");
+        System.out.print(id);
         popup.show();
     }
 
@@ -141,8 +148,12 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
      * Click listener for popup menu items
      */
     class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
+        int id;
 
-        public MyMenuItemClickListener() {
+        public MyMenuItemClickListener(int id) {
+            System.out.print("aahahahahahhahahaha");
+            System.out.print(id);
+            this.id = id;
         }
 
         @Override
@@ -150,7 +161,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
             switch (menuItem.getItemId()) {
                 case R.id.action_add_favourite:
                     Toast.makeText(mContext, "You successfully joined the group!", Toast.LENGTH_SHORT).show();
-                    joinGroup();
+                    joinGroup(id);
                     return true;
                 case R.id.action_play_next:
                     Toast.makeText(mContext, "Chat away", Toast.LENGTH_SHORT).show();
@@ -207,66 +218,75 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
     }
 
-    private void joinGroup(){
-
-        String url = "http://grupyservice.azurewebsites.net/GroupService.svc/";
-
-
-        JsonArrayRequest arrReq = new JsonArrayRequest(Request.Method.GET, url,null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        // Check the length of our response (to see if the user has any repos)
-                        // The user does have repos, so let's loop through them all
-                        //JSONObject obj = response;
-                        try{
-                            JSONObject jsonobject = response.getJSONObject(0);
-                            Toast.makeText(mContext, jsonobject.toString(), Toast.LENGTH_SHORT).show();
-
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
+    private void joinGroup(int id){
+        JSONObject parameters = new JSONObject();
+        prefs = mContext.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
+        editor = prefs.edit();
+        int user_id = prefs.getInt("ID_USER",0);
+        int group_id = id;
 
 
 
-                    }
-                },
 
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // If there a HTTP error then add a note to our repo list.
-                        Toast.makeText(mContext, error.toString(), Toast.LENGTH_SHORT).show();
+        try {
 
-                        //setRepoListText(String.valueOf(a));
-                        Log.e("Volley", error.toString());
-                    }
+            parameters.put("GROUP_ID", group_id);
+            parameters.put("USER_ID", user_id);
 
+
+
+            Toast.makeText(mContext, parameters.toString(), Toast.LENGTH_SHORT).show();
+        } catch (JSONException e) {
+
+
+        }
+        //final String mRequestBody = jsonBody.toString();
+        //status.setText(mRequestBody);
+
+        String URL = "http://grupyservice.azurewebsites.net/AMember.svc/";
+        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, URL, parameters, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                Toast.makeText(mContext, response.toString(), Toast.LENGTH_SHORT).show();
+
+                try {
+
+                    // For each repo, add a new line to our repo list.
+                    String status = response.get("status").toString();
+                    //user_login();
+
+                    //JSONObject jsonObj1=jsonObj.getJSONObject(0);
+                    //JSONObject jsonObj = response.getJSONObject(0);
+                    Toast.makeText(mContext, status, Toast.LENGTH_LONG).show();
+
+                } catch (JSONException e) {
+                    //Toast.makeText(getApplicationContext(),e.toString(), Toast.LENGTH_SHORT).show();
+                    // If there is an error then output this to the logs.
+
+                    Log.e("Volley", "Invalid JSON Object.");
 
                 }
 
-        ){
+                Log.i("LOG_VOLLEY", response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(mContext, error.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("LOG_VOLLEY", error.toString());
+            }
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/json; charset=utf-8";
             }
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> paramsValue = new HashMap<String, String>();
-                // paramsValue.put("abc@abc.com", new String("geslo123"));
-                return paramsValue;
-            }
 
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                return headers;
-            }
+
         };
-        // Add the request we just defined to our request queue.
-        // The request queue will automatically handle the request as soon as it can.
+        requestQueue.add(stringRequest);
 
-        requestQueue.add(arrReq);
 
 
     }
