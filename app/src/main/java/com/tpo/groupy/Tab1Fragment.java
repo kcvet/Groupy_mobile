@@ -78,6 +78,7 @@ public class Tab1Fragment extends Fragment {
     private void prepareAlbums(JSONArray response) {
 
         String name, group_description, number_of_people, photo, place_to_stay, place_to_visit;
+        int id;
         int[] covers = new int[]{
                 R.drawable.home,
                 R.drawable.home};
@@ -92,8 +93,8 @@ public class Tab1Fragment extends Fragment {
                 place_to_stay = jsonobject.getString("place_to_stay");
                 place_to_visit = jsonobject.getString("place_to_visit");
                 photo = jsonobject.getString("group_photo");
-
-                Card a = new Card(name, Integer.parseInt(number_of_people), covers[0], group_description, place_to_visit, place_to_stay, photo);
+                id = jsonobject.getInt("ID_GROUP");
+                Card a = new Card(name, Integer.parseInt(number_of_people), covers[0], group_description, place_to_visit, place_to_stay, photo, id);
                 albumList.add(a);
             }catch(Exception e){
                 System.out.println("NAPAKA");
@@ -155,7 +156,7 @@ public class Tab1Fragment extends Fragment {
      */
     private void getGroupData(){
 
-        String url = "http://grupyservice.azurewebsites.net/GroupService.svc/";
+        String url = "http://grupyservice.azurewebsites.net/GroupService.svc/project/1";
 
 
         JsonArrayRequest arrReq = new JsonArrayRequest(Request.Method.GET, url,null,
