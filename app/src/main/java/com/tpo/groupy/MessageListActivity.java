@@ -159,7 +159,7 @@ public class MessageListActivity extends AppCompatActivity {
     }
     public void getMSG(){
 
-        int user_id = prefs.getInt("ID_USER",0);
+        final int user_id = prefs.getInt("ID_USER",0);
         final String em = prefs.getString("user", "none");
         Bundle extras = getIntent().getExtras();
         int id_group = extras.getInt("id_chat", 0);
@@ -183,7 +183,8 @@ public class MessageListActivity extends AppCompatActivity {
                                 JSONObject msg = response.getJSONObject(i);
 
                                 // Get the current student (json object) data
-                                messageList.add(new BaseMessage(msg.getString("text"),  msg.getString("datetime"), msg.getString("msgFrom"), 2));
+                                if(msg.getInt("send_by_id_user")== user_id) messageList.add(new BaseMessage(msg.getString("text"),  msg.getString("datetime"), msg.getString("msgFrom"), 1));
+                                else messageList.add(new BaseMessage(msg.getString("text"),  msg.getString("datetime"), msg.getString("msgFrom"), 2));
 
 
                             }
