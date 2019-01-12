@@ -21,6 +21,7 @@
         <activity android:name=".signup" />
         <activity android:name=".OnRegister" />
         <activity android:name=".ChatActivity" />
+        <activity android:name=".MessageListActivity" />
         <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2" />

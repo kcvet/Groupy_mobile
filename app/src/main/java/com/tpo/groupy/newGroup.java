@@ -66,7 +66,7 @@ public class newGroup extends AppCompatActivity{
             parameters.put("number_of_people", number_of_people.getText().toString());
             parameters.put("hosted_by_user_id", user_id);
             parameters.put("created_by_user_id", user_id);
-
+            parameters.put("project", 1); //change here for piknik project to 0
 
 
             Toast.makeText(getApplicationContext(), parameters.toString(), Toast.LENGTH_SHORT).show();
@@ -87,9 +87,123 @@ public class newGroup extends AppCompatActivity{
                 try {
 
                     // For each repo, add a new line to our repo list.
+                    String status = response.get("ID_GROUP").toString();
+                    //user_login();
+                    createChat(status);
+
+                } catch (JSONException e) {
+
+                    Log.e("Volley", "Invalid JSON Object.");
+                }
+
+                Log.i("LOG_VOLLEY", response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                Log.e("LOG_VOLLEY", error.toString());
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+
+        };
+        requestQueue.add(stringRequest);
+
+
+    }
+
+    public void createChat(String id) {
+        JSONObject parameters = new JSONObject();
+        final String _id = id;
+
+        try {
+            parameters.put("chat_name", id);
+            parameters.put("project", 1); //change here for piknik project to 0
+
+            Toast.makeText(getApplicationContext(), parameters.toString(), Toast.LENGTH_SHORT).show();
+        } catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), "wack", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+        String URL = "http://grupyservice.azurewebsites.net/ChatService.svc/";
+        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, URL, parameters, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+
+                try {
+                    // For each repo, add a new line to our repo list.
+                    String status = response.get("ID_CHAT").toString();
+                    //user_login();
+                    joinChatGroup(_id, status);
+                    //JSONObject jsonObj1=jsonObj.getJSONObject(0);
+                    //JSONObject jsonObj = response.getJSONObject(0);
+                } catch (JSONException e) {
+                    //Toast.makeText(getApplicationContext(),e.toString(), Toast.LENGTH_SHORT).show();
+                    // If there is an error then output this to the logs.
+                    Toast.makeText(getApplicationContext(), "BOI", Toast.LENGTH_SHORT).show();
+
+                    Log.e("Volley", "Invalid JSON Object.");
+                }
+
+                Log.i("LOG_VOLLEY", response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(getApplicationContext(), error.toString()+"BOIIII", Toast.LENGTH_SHORT).show();
+                Log.e("LOG_VOLLEY", error.toString()+"BOIIII");
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+
+
+        };
+        requestQueue.add(stringRequest);
+
+
+    }
+
+    public void joinChatGroup(String group_id, String chat_id) {
+        JSONObject parameters = new JSONObject();
+
+        try {
+            parameters.put("ID_CHAT", chat_id);
+            parameters.put("ID_GROUP", group_id); //change here for piknik project to 0
+
+
+            Toast.makeText(getApplicationContext(), parameters.toString(), Toast.LENGTH_SHORT).show();
+        } catch (JSONException e) {
+
+
+        }
+        //final String mRequestBody = jsonBody.toString();
+        //status.setText(mRequestBody);
+
+        String URL = "http://grupyservice.azurewebsites.net/AGroupHasChat.svc/";
+        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, URL, parameters, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
+
+                try {
+
+                    // For each repo, add a new line to our repo list.
                     String status = response.get("status").toString();
                     //user_login();
-
                     //JSONObject jsonObj1=jsonObj.getJSONObject(0);
                     //JSONObject jsonObj = response.getJSONObject(0);
                     Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG).show();
@@ -100,7 +214,6 @@ public class newGroup extends AppCompatActivity{
                     // If there is an error then output this to the logs.
 
                     Log.e("Volley", "Invalid JSON Object.");
-                    finish();
                 }
 
                 Log.i("LOG_VOLLEY", response.toString());
@@ -125,5 +238,4 @@ public class newGroup extends AppCompatActivity{
 
 
     }
-
 }
