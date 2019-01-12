@@ -158,11 +158,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_add_favourite:
-                    Toast.makeText(mContext, "You successfully joined the group!", Toast.LENGTH_SHORT).show();
                     joinGroup(id);
                     return true;
                 case R.id.action_play_next:
-                    Toast.makeText(mContext, "Chat away", Toast.LENGTH_SHORT).show();
                     getChatId(String.valueOf(id));
                     return true;
                 default:
@@ -249,7 +247,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
                 try {
 
-                    // For each repo, add a new line to our repo list.
+                    Toast.makeText(mContext, "You successfully joined the group!", Toast.LENGTH_SHORT).show();
                     String status = response.get("status").toString();
                     //user_login();
 
@@ -271,7 +269,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(mContext, error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Attempt to join group failed, you may already be a member of this group.", Toast.LENGTH_SHORT).show();
                 Log.e("LOG_VOLLEY", error.toString());
             }
         }) {
@@ -288,7 +286,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
     }
     public void getChatId(String id){
-
+        final String _id = id;
         String url = "http://grupyservice.azurewebsites.net/ChatService.svc/ID_GROUP/"+id;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -306,13 +304,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
                             // Loop through the array elements
 
                                 // Get current json object
-                                JSONObject msg = response.getJSONObject(0);
-                                int id = msg.getInt("ID_CHAT");
-                            Toast.makeText(mContext, msg.toString(), Toast.LENGTH_SHORT).show();
 
-                            Intent myIntent = new Intent(mContext, MessageListActivity.class);
-                                myIntent.putExtra("id_chat", id);
-                                mContext.startActivity(myIntent);
+                                JSONObject msg = response.getJSONObject(0);
+                                int a = msg.getInt("ID_CHAT");
+
+                                isUserInGroup(_id, a);
 
                             // Get the current student (json object) data
 
@@ -332,5 +328,60 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
         // Add JsonArrayRequest to the RequestQueue
         requestQueue.add(jsonArrayRequest);
+    }
+
+    public void isUserInGroup(final String group_id, int chat_id){
+        final int id = chat_id;
+        prefs = mContext.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
+        editor = prefs.edit();
+        int user_id = prefs.getInt("ID_USER",0);
+        String url = "http://grupyservice.azurewebsites.net/GroupService.svc/ID_USER/"+user_id;
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // Do something with response
+                        //mTextView.setText(response.toString());
+
+                        // Process the JSON
+                        try{
+                            // Loop through the array elements
+
+                            // Get current json object
+                            int m = 0;
+                            for(int i=0;i<response.length();i++){
+                                // Get current json object
+                                JSONObject msg = response.getJSONObject(i);
+                                if (msg.getInt("ID_GROUP") == Integer.parseInt(group_id)) {
+                                    m = 1;
+                                    Intent myIntent = new Intent(mContext, MessageListActivity.class);
+                                    myIntent.putExtra("id_chat", id);
+                                    mContext.startActivity(myIntent);
+                                }
+                            }
+                        if(m == 0) {
+                                Toast.makeText(mContext, "You are not a member of this group", Toast.LENGTH_LONG).show();
+                        }
+
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        // Do something when error occurred
+
+                    }
+                }
+        );
+
+        // Add JsonArrayRequest to the RequestQueue
+        requestQueue.add(jsonArrayRequest);
+
     }
 }

@@ -2,7 +2,9 @@ package com.tpo.groupy;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +35,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MessageListActivity extends AppCompatActivity {
     private RecyclerView mMessageRecycler;
@@ -43,7 +47,12 @@ public class MessageListActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
+    int delay=10;
+    Handler handler;
+    boolean stop = true;
     @Override
+
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,27 +61,32 @@ public class MessageListActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(getApplicationContext());
         prefs = getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
         editor = prefs.edit();
-        /*
 
-        messageList.add(new BaseMessage("Zdravo", "11.1.2018", "Peter", 2));
-        messageList.add(new BaseMessage("Zdravo tudi tebi", "12.1.2018", "Kevin", 1));
-        messageList.add(new BaseMessage("Ali ti je kaj slabo od TPO-ja", "12.1.2018", "Peter", 2));
-        messageList.add(new BaseMessage("Kje pa jaz ljubim TPO", "13.1.2018", "Kevin", 1));
-        messageList.add(new BaseMessage("OHH!, Da te nism slišov", "13.1.2018", "Peter", 2));
-        */
         button_chatbox_send =(Button)findViewById(R.id.button_chatbox_send);
         edittext_chatbox =(EditText) findViewById(R.id.edittext_chatbox);
-
         getMSG();
-        update();
-
         button_chatbox_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMSG();
             }
         });
+        edittext_chatbox.setText("");
+        mMessageRecycler = (RecyclerView) findViewById(R.id.reyclerview_message_list);
+        mMessageRecycler.setLayoutManager(new LinearLayoutManager(this));
 
+        handler = new Handler();
+
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                //do something
+
+                    getMSG();
+                    handler.postDelayed(this, delay);
+
+            }
+        }, delay);
     }
 
     public void sendMSG(){
@@ -82,7 +96,6 @@ public class MessageListActivity extends AppCompatActivity {
         messageList.add(new BaseMessage(msg, formattedDate, "Kevin", 1));
         postmsg();
         edittext_chatbox.setText("");
-        update();
 
     }
 
@@ -109,25 +122,9 @@ public class MessageListActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_SHORT).show();
-
-                    try {
-
                         // For each repo, add a new line to our repo list.
-                        String status = response.get("status").toString();
-                        //user_login();
+                        getMSG();
 
-                        //JSONObject jsonObj1=jsonObj.getJSONObject(0);
-                        //JSONObject jsonObj = response.getJSONObject(0);
-                        Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG).show();
-
-
-                    } catch (JSONException e) {
-                        //Toast.makeText(getApplicationContext(),e.toString(), Toast.LENGTH_SHORT).show();
-                        // If there is an error then output this to the logs.
-
-                        Log.e("Volley", "Invalid JSON Object.");
-                    }
 
                     Log.i("LOG_VOLLEY", response.toString());
                 }
@@ -158,7 +155,7 @@ public class MessageListActivity extends AppCompatActivity {
 
     }
     public void getMSG(){
-
+        messageList = new ArrayList<>();
         final int user_id = prefs.getInt("ID_USER",0);
         final String em = prefs.getString("user", "none");
         Bundle extras = getIntent().getExtras();
@@ -178,7 +175,9 @@ public class MessageListActivity extends AppCompatActivity {
                         // Process the JSON
                         try{
                             // Loop through the array elements
-                            for(int i=0;i<response.length();i++){
+                            int a = 0;
+                            if(response.length() > 6) a = response.length() -7;
+                            for(int i=a;i<response.length();i++){
                                 // Get current json object
                                 JSONObject msg = response.getJSONObject(i);
 
@@ -186,8 +185,9 @@ public class MessageListActivity extends AppCompatActivity {
                                 if(msg.getInt("send_by_id_user")== user_id) messageList.add(new BaseMessage(msg.getString("text"),  msg.getString("datetime"), msg.getString("msgFrom"), 1));
                                 else messageList.add(new BaseMessage(msg.getString("text"),  msg.getString("datetime"), msg.getString("msgFrom"), 2));
 
-
                             }
+                                update();
+
                         }catch (JSONException e){
                             e.printStackTrace();
                         }
@@ -207,17 +207,9 @@ public class MessageListActivity extends AppCompatActivity {
 
     }
     public void update() {
-        mMessageRecycler = (RecyclerView) findViewById(R.id.reyclerview_message_list);
         mMessageAdapter = new MessageListAdapter(this, messageList);
-        mMessageRecycler.setLayoutManager(new LinearLayoutManager(this));
         mMessageRecycler.setAdapter(mMessageAdapter);
-        mMessageRecycler.post(new Runnable() {
-            @Override
-            public void run() {
-                // Call smooth scroll
-                mMessageRecycler.smoothScrollToPosition(mMessageAdapter.getItemCount());
-            }
-        });
+
     }
 
 
