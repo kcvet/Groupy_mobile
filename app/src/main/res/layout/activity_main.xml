@@ -10,10 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FF2B6ECE"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/email"
@@ -41,6 +39,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/email" />
 
+        <Button
+            android:id="@+id/login"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="104dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
+            android:layout_marginTop="44dp"
+            android:background="@drawable/buttonstyle"
+            android:elevation="0dp"
+            android:text="Login"
+            android:textColor="@android:color/background_light"
+            app:layout_constraintStart_toStartOf="@+id/password"
+            app:layout_constraintTop_toTopOf="@+id/password" />
+
         <CheckBox
             android:id="@+id/checkBox"
             style="@android:style/Widget.Material.Light.CompoundButton.CheckBox"
@@ -52,23 +64,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login" />
 
-        <Button
-            android:id="@+id/login"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="116dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="128dp"
-            android:layout_marginTop="44dp"
-            android:background="@drawable/buttonstyle"
-            android:elevation="5dp"
-            android:text="Login"
-            android:textColor="@android:color/background_light"
-            app:layout_constraintStart_toStartOf="@+id/password"
-            app:layout_constraintTop_toTopOf="@+id/password" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
@@ -88,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:background="FF2B6ECE"
+                android:background="@color/colorPrimaryDark"
                 android:fontFamily="sans-serif"
                 android:text=" Register here"
                 android:textColor="@android:color/background_light"
