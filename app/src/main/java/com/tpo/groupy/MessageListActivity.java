@@ -211,6 +211,13 @@ public class MessageListActivity extends AppCompatActivity {
         mMessageAdapter = new MessageListAdapter(this, messageList);
         mMessageRecycler.setLayoutManager(new LinearLayoutManager(this));
         mMessageRecycler.setAdapter(mMessageAdapter);
+        mMessageRecycler.post(new Runnable() {
+            @Override
+            public void run() {
+                // Call smooth scroll
+                mMessageRecycler.smoothScrollToPosition(mMessageAdapter.getItemCount());
+            }
+        });
     }
 
 
