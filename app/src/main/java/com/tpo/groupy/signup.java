@@ -105,7 +105,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
             try {
                 parameters.put("email", username);
                 parameters.put("password", password);
-                parameters.put("project", 1);
+                parameters.put("project", 0);
                 parameters.put("name", this.name.getText().toString().trim());
                 parameters.put("surname", this.surname.getText().toString().trim());
                 parameters.put("introduction", this.introduction.getText().toString().trim());

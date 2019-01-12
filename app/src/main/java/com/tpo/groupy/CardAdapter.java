@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -162,8 +163,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
                     return true;
                 case R.id.action_play_next:
                     Toast.makeText(mContext, "Chat away", Toast.LENGTH_SHORT).show();
-                    Intent myIntent = new Intent(mContext, MessageListActivity.class);
-                    mContext.startActivity(myIntent);
+                    getChatId(String.valueOf(id));
                     return true;
                 default:
             }
@@ -287,5 +287,50 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
 
     }
+    public void getChatId(String id){
 
+        String url = "http://grupyservice.azurewebsites.net/ChatService.svc/ID_GROUP/"+id;
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // Do something with response
+                        //mTextView.setText(response.toString());
+
+                        // Process the JSON
+                        try{
+                            // Loop through the array elements
+
+                                // Get current json object
+                                JSONObject msg = response.getJSONObject(0);
+                                int id = msg.getInt("ID_CHAT");
+                            Toast.makeText(mContext, msg.toString(), Toast.LENGTH_SHORT).show();
+
+                            Intent myIntent = new Intent(mContext, MessageListActivity.class);
+                                myIntent.putExtra("id_chat", id);
+                                mContext.startActivity(myIntent);
+
+                            // Get the current student (json object) data
+
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        // Do something when error occurred
+
+                    }
+                }
+        );
+
+        // Add JsonArrayRequest to the RequestQueue
+        requestQueue.add(jsonArrayRequest);
+    }
 }
