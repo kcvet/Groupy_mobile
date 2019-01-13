@@ -191,10 +191,13 @@ public class MessageListActivity extends AppCompatActivity {
                             float density = getApplicationContext().getResources().getDisplayMetrics().density;
                             float px = 50 * density;
                             int px_ = Math.round(px);
-                            height = height - height/5-height/10;
+                            if(width > height) height = width;
+
+                            height = height - height/5;
                             int n_messages = height/px_;
                             int a = 0;
                             if(response.length() > n_messages) a = response.length() -(n_messages-1);
+                            //Toast.makeText(getApplicationContext(), "height: "+ height+ " density"+px_+ " start: "+a+" n_messages: "+n_messages, Toast.LENGTH_LONG).show();
 
                             for(int i=a;i<response.length();i++){
                                 // Get current json object
