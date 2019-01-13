@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+
 /**
  * Created by Ravi Tamada on 18/05/16.
  */
@@ -44,13 +47,14 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
     private Context mContext;
     private List<Card> albumList;
-    LinearLayout layout;
-    private View subItem;
+    private RelativeLayout layout;
+    private LinearLayout layout1;
+    private View subItem1, subItem;
     private RequestQueue requestQueue;
-    SharedPreferences prefs;
-    SharedPreferences.Editor editor;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor editor;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView title, count, descript;
         public ImageView thumbnail, overflow;
 
@@ -62,24 +66,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
             count = (TextView) view.findViewById(R.id.count);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
             overflow = (ImageView) view.findViewById(R.id.overflow);
-            subItem = itemView.findViewById(R.id.sub_item);
-            layout = view.findViewById(R.id.card_layout);
+            subItem = view.findViewById(R.id.sub_item);
+            layout = view.findViewById(R.id.rel_layout);
             //Collapse card in the beginning
             ViewGroup.LayoutParams params = layout.getLayoutParams();
-            params.height = 770;
+            params.height = 500;
             layout.setLayoutParams(params);
             //
-            view.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(mContext, "YOUR: "+this.getLayoutPosition(), Toast.LENGTH_SHORT).show();
-        }
 
         private void bind(Card album) {
-            boolean expanded = album.isExpanded();
-            subItem.setVisibility(expanded ? View.VISIBLE : View.GONE);
+            subItem.setVisibility(View.GONE);
             descript.setText("Description: "+album.getDescription()+"\n"+
                     "Place to stay: "+album.getPlace_to_stay()+"\n"+"Place to visit: "+album.getPlace_to_visit());
             title.setText(album.getName());
@@ -103,21 +101,58 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Card album = albumList.get(position);
-        final int position1 = position;
         holder.bind(album);
-        /*
-        holder.title.setText(album.getName());
-        holder.count.setText(album.getNumOfSongs() + " people");
-            */
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                expand();
-                boolean expanded = album.isExpanded();
-                album.setExpanded(!expanded);
-                notifyItemChanged(position1);
+
+                layout1 = v.findViewById(R.id.card_layout);
+                subItem1 = v.findViewById(R.id.sub_item);
+                ViewGroup.LayoutParams params = layout1.getLayoutParams();
+                Log.e(TAG, album.getName());
+                if(!(album.isExpanded())){
+                    Log.e(TAG, "Visible");
+                    subItem1.setVisibility(View.VISIBLE);
+                    // Changes the height and width to the specified *pixels*
+                    if(params.height == 559){
+                        params.height = 700;
+                        ValueAnimator animator = ValueAnimator.ofInt(559, 700);
+                        animator.setDuration(1000);
+                        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                            public void onAnimationUpdate(ValueAnimator animation) {
+                                int val = (Integer) animation.getAnimatedValue();
+                                ViewGroup.LayoutParams layoutParams = layout1.getLayoutParams();
+                                layoutParams.height = val;
+                                layout1.setLayoutParams(layoutParams);
+
+                            }
+                        });
+                        animator.start();
+                    }
+                    album.setExpanded(true);
+                }
+                else{
+                    params.height = 559;
+                    ValueAnimator animator = ValueAnimator.ofInt(700, 559);
+                    animator.setDuration(1000);
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            int val = (Integer) animation.getAnimatedValue();
+                            ViewGroup.LayoutParams layoutParams = layout1.getLayoutParams();
+                            layoutParams.height = val;
+                            layout1.setLayoutParams(layoutParams);
+
+                        }
+                    });
+                    animator.start();
+                    Log.e(TAG, "Gone");
+                    subItem1.setVisibility(View.GONE);
+                    album.setExpanded(false);
+                }
+
             }
         });
         // loading album cover using Glide library

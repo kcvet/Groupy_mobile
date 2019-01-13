@@ -8,7 +8,7 @@ public class Card {
     private boolean expanded;
 
 
-    public Card(String name, int numOfSongs, int thumbnail, String description, String place_to_visit, String place_to_stay, String photo, int id ) {
+    public Card(String name, int numOfSongs, int thumbnail, String description, String place_to_visit, String place_to_stay, String photo, int id , boolean expanded) {
         this.name = name;
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
@@ -17,6 +17,7 @@ public class Card {
         this.place_to_visit = place_to_visit;
         this.photo = photo;
         this.id = id;
+        this.expanded = false;
 
     }
 
