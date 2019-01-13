@@ -193,7 +193,7 @@ public class MessageListActivity extends AppCompatActivity {
                             int px_ = Math.round(px);
                             if(width > height) height = width;
 
-                            height = height - height/5;
+                            height = height - px_*2;
                             int n_messages = height/px_;
                             int a = 0;
                             if(response.length() > n_messages) a = response.length() -(n_messages-1);
