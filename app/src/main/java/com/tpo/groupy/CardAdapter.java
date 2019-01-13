@@ -108,18 +108,17 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 layout1 = v.findViewById(R.id.card_layout);
                 subItem1 = v.findViewById(R.id.sub_item);
                 ViewGroup.LayoutParams params = layout1.getLayoutParams();
                 Log.e(TAG, album.getName());
+                Log.e(TAG, Integer.toString(params.height));
                 if(!(album.isExpanded())){
                     Log.e(TAG, "Visible");
                     subItem1.setVisibility(View.VISIBLE);
                     // Changes the height and width to the specified *pixels*
-                    if(params.height == 559){
                         params.height = 700;
-                        ValueAnimator animator = ValueAnimator.ofInt(559, 700);
+                        ValueAnimator animator = ValueAnimator.ofInt(500, 700);
                         animator.setDuration(1000);
                         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                             public void onAnimationUpdate(ValueAnimator animation) {
@@ -131,12 +130,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
                             }
                         });
                         animator.start();
-                    }
                     album.setExpanded(true);
                 }
                 else{
-                    params.height = 559;
-                    ValueAnimator animator = ValueAnimator.ofInt(700, 559);
+                    params.height = 500;
+                    ValueAnimator animator = ValueAnimator.ofInt(700, 500);
                     animator.setDuration(1000);
                     animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         public void onAnimationUpdate(ValueAnimator animation) {
@@ -209,44 +207,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         return albumList.size();
     }
 
-
-
-    public void expand(){
-// Gets the layout params that will allow you to resize the layout
-        ViewGroup.LayoutParams params = layout.getLayoutParams();
-// Changes the height and width to the specified *pixels*
-        if(params.height == 770){
-            params.height = 1270;
-            ValueAnimator animator = ValueAnimator.ofInt(770, 1270);
-            animator.setDuration(1000);
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    int val = (Integer) animation.getAnimatedValue();
-                    ViewGroup.LayoutParams layoutParams = layout.getLayoutParams();
-                    layoutParams.height = val;
-                    layout.setLayoutParams(layoutParams);
-
-                }
-            });
-            animator.start();
-        }
-        else{
-            params.height = 770;
-            ValueAnimator animator = ValueAnimator.ofInt(1270, 770);
-            animator.setDuration(1000);
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    int val = (Integer) animation.getAnimatedValue();
-                    ViewGroup.LayoutParams layoutParams = layout.getLayoutParams();
-                    layoutParams.height = val;
-                    layout.setLayoutParams(layoutParams);
-
-                }
-            });
-            animator.start();
-        }
-
-    }
 
     private void joinGroup(int id){
         JSONObject parameters = new JSONObject();
