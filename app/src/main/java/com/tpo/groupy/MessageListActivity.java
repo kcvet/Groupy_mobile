@@ -195,7 +195,6 @@ public class MessageListActivity extends AppCompatActivity {
                             int n_messages = height/px_;
                             int a = 0;
                             if(response.length() > n_messages) a = response.length() -(n_messages-1);
-                            Toast.makeText(getApplicationContext(), "height: "+ height+ " density"+px_+ " start: "+a+" n_messages: "+n_messages, Toast.LENGTH_LONG).show();
 
                             for(int i=a;i<response.length();i++){
                                 // Get current json object
