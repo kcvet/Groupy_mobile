@@ -8,10 +8,11 @@ public class Card {
     private boolean expanded;
 
 
-    public Card(String name, int numOfSongs, int thumbnail) {
+    public Card(String name, int numOfSongs, int thumbnail, boolean expanded) {
         this.name = name;
         this.numOfSongs = numOfSongs;
         this.thumbnail = thumbnail;
+        this.expanded = false;
 
     }
 

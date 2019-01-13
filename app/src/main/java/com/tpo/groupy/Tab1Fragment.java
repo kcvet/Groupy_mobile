@@ -90,7 +90,7 @@ public class Tab1Fragment extends Fragment {
                 name = jsonobject.getString("name");
                 number_of_people = jsonobject.getString("number_of_people");
                 photo = jsonobject.getString("group_photo");
-                Card a = new Card(name, Integer.parseInt(number_of_people), covers[0]);
+                Card a = new Card(name, Integer.parseInt(number_of_people), covers[0], false);
                 albumList.add(a);
             }catch(Exception e){
                 System.out.println("NAPAKA");
