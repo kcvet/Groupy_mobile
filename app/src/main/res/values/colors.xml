@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/background_login</color>
+    <color name="colorPrimaryDark">#303f9f</color>
+    <color name="colorAccent">#ff4081</color>
+    <color name="primary_dark_material_dark_1">#6e0a8c</color>
+    <color name="primary_material_dark">#460c40</color>
+    <color name="background_material_dark">#210c3a</color>
+    <color name="accent_material_dark">#ff40eb</color>
+    <color name="background_login">#a566b8</color>
+    <color name="viewBg">#f1f5f8</color>
+    <color name="album_title">#4c4c4c</color>
+    <color name="userProfileBackground">#f6cbe9</color>
+</resources>
