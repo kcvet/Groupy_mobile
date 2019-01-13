@@ -47,7 +47,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
     private Context mContext;
     private List<Card> albumList;
-    private RelativeLayout layout;
+    private LinearLayout layout;
     private LinearLayout layout1;
     private View subItem1, subItem;
     private RequestQueue requestQueue;
@@ -67,10 +67,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
             overflow = (ImageView) view.findViewById(R.id.overflow);
             subItem = view.findViewById(R.id.sub_item);
-            layout = view.findViewById(R.id.rel_layout);
+            layout = view.findViewById(R.id.card_layout);
             //Collapse card in the beginning
             ViewGroup.LayoutParams params = layout.getLayoutParams();
-            params.height = 500;
+            params.height = 770;
             layout.setLayoutParams(params);
             //
         }
@@ -117,8 +117,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
                     Log.e(TAG, "Visible");
                     subItem1.setVisibility(View.VISIBLE);
                     // Changes the height and width to the specified *pixels*
-                        params.height = 700;
-                        ValueAnimator animator = ValueAnimator.ofInt(500, 700);
+                        params.height = 770;
+                        ValueAnimator animator = ValueAnimator.ofInt(770, 1270);
                         animator.setDuration(1000);
                         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                             public void onAnimationUpdate(ValueAnimator animation) {
@@ -133,8 +133,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
                     album.setExpanded(true);
                 }
                 else{
-                    params.height = 500;
-                    ValueAnimator animator = ValueAnimator.ofInt(700, 500);
+                    params.height = 770;
+                    ValueAnimator animator = ValueAnimator.ofInt(1270, 770);
                     animator.setDuration(1000);
                     animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         public void onAnimationUpdate(ValueAnimator animation) {
