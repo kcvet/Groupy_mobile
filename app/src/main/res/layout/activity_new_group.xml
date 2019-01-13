@@ -42,8 +42,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Description"
-            android:inputType="textPersonName"
-            android:textColor="@color/viewBg" />
+            android:inputType="textPersonName" />
 
         <EditText
             android:id="@+id/group_photo"
