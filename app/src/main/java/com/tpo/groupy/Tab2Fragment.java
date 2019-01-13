@@ -167,9 +167,10 @@ public class Tab2Fragment extends Fragment {
                             editor.commit();
 
 
+                                new DownloadImageTask(profile_pic)
+                                        .execute(profile_pic_r);
 
-                            new DownloadImageTask(profile_pic)
-                                    .execute(profile_pic_r);
+
                             /*
                             profile_pic.setImageBitmap(bmp);
 

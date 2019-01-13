@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class signup extends AppCompatActivity implements View.OnClickListener {
 
-    EditText email, password, name, surname, phone, introduction;
+    EditText email, password, name, surname, phone, introduction, picture;
     Button register,ret_login;
     private RequestQueue requestQueue;
     SharedPreferences prefs;
@@ -61,6 +61,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
         surname = (EditText) findViewById(R.id.surname);
         phone = (EditText) findViewById(R.id.phone);
         introduction = (EditText) findViewById(R.id.introduction);
+        picture = (EditText) findViewById(R.id.picture);
         status1="0";
         register.setOnClickListener(this);
         ret_login.setOnClickListener(this);
@@ -110,6 +111,7 @@ public class signup extends AppCompatActivity implements View.OnClickListener {
                 parameters.put("surname", this.surname.getText().toString().trim());
                 parameters.put("introduction", this.introduction.getText().toString().trim());
                 parameters.put("phone", this.phone.getText().toString().trim());
+                parameters.put("profile_pic", this.picture.getText().toString().trim());
                 parameters.put("email_verified", 0);
                 parameters.put("phone_verified", 0);
 

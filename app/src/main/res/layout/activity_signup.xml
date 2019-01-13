@@ -16,7 +16,7 @@
             android:layout_height="0dp"
             android:layout_margin="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_weight="30"
+            android:layout_weight="35"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,6 +74,15 @@
                 android:ems="10"
                 android:hint="introduction"
                 android:inputType="textMultiLine"
+                android:textColor="@color/background_login" />
+
+            <EditText
+                android:id="@+id/picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="picture link"
+                android:inputType="textPersonName"
                 android:textColor="@color/background_login" />
 
         </LinearLayout>
