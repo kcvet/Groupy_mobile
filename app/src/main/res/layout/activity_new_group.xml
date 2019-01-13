@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF2B6ECE"
+    android:background="@color/colorPrimary"
     tools:context=".newGroup">
 
     <Button
@@ -19,6 +19,7 @@
         android:baselineAligned="false"
         android:elevation="10dp"
         android:text="Add Group"
+        android:textColor="@color/viewBg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +43,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Description"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="@color/viewBg" />
 
         <EditText
             android:id="@+id/group_photo"

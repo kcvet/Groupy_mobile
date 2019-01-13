@@ -52,7 +52,7 @@ public class Tab3Fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_one, container, false);
+        View view = inflater.inflate(R.layout.fragment_three, container, false);
         Toolbar toolbar = (Toolbar) view. findViewById(R.id.toolbar);
         prefs = this.getActivity().getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);

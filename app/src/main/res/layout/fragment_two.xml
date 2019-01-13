@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="@drawable/gradientbackground"
+            android:background="#4bb6ef"
             android:orientation="vertical">
 
             <ImageView
@@ -28,6 +28,7 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="45dp"
+                android:background="@drawable/user"
                 android:src="@drawable/user" />
 
             <TextView
@@ -93,12 +94,13 @@
                 android:inputType="phone" />
 
         </LinearLayout>
+
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:paddingLeft="25dp">
 
             <ImageView
                 android:layout_width="36dp"
@@ -114,12 +116,13 @@
                 android:focusable="false" />
 
         </LinearLayout>
+
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:orientation="horizontal"
-            android:paddingLeft="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:paddingLeft="25dp">
 
             <ImageView
                 android:layout_width="36dp"
@@ -137,24 +140,39 @@
                 android:inputType="textMultiLine" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/user_settings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="35dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonstyle"
+                android:elevation="10dp"
+                android:text="edit info"
+                android:textColor="#fff" />
+
+            <Button
+                android:id="@+id/newGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="35dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonstyle"
+                android:elevation="10dp"
+                android:text="create new group"
+                android:textColor="#fff" />
+        </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/user_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="35dp"
-        android:background="@drawable/buttonstyle"
-        android:elevation="10dp"
-        android:text="edit info"
-        android:textColor="#fff" />
 
-    <Button
-        android:id="@+id/newGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button" />
 
 </LinearLayout>
 </ScrollView>
