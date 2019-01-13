@@ -2,6 +2,7 @@ package com.tpo.groupy;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -181,8 +183,20 @@ public class MessageListActivity extends AppCompatActivity {
                         // Process the JSON
                         try{
                             // Loop through the array elements
+                            Display display = getWindowManager().getDefaultDisplay();
+                            Point size = new Point();
+                            display.getSize(size);
+                            int width = size.x;
+                            int height = size.y;
+                            float density = getApplicationContext().getResources().getDisplayMetrics().density;
+                            float px = 50 * density;
+                            int px_ = Math.round(px);
+                            height = height - height/5-height/10;
+                            int n_messages = height/px_;
                             int a = 0;
-                            if(response.length() > 6) a = response.length() -7;
+                            if(response.length() > n_messages) a = response.length() -(n_messages-1);
+                            Toast.makeText(getApplicationContext(), "height: "+ height+ " density"+px_+ " start: "+a+" n_messages: "+n_messages, Toast.LENGTH_LONG).show();
+
                             for(int i=a;i<response.length();i++){
                                 // Get current json object
                                 JSONObject msg = response.getJSONObject(i);
