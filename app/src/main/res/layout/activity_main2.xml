@@ -11,11 +11,11 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="@color/background_login"
         android:minHeight="?actionBarSize"
         app:tabBackground="@color/colorPrimary"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@color/colorAccent"
+        app:tabIndicatorColor="@color/background_login"
         app:tabIndicatorHeight="4dp"
         app:tabMode="fixed">
 

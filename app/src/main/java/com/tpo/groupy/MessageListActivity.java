@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -47,7 +49,7 @@ public class MessageListActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
-    int delay=10;
+    int delay=100;
     Handler handler;
     boolean stop = true;
     @Override
@@ -56,6 +58,10 @@ public class MessageListActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getSupportActionBar().hide();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_message_list);
         // fill arraylist with random data
         requestQueue = Volley.newRequestQueue(getApplicationContext());

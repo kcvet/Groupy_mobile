@@ -65,11 +65,6 @@ public class Tab1Fragment extends Fragment {
         recyclerView.setAdapter(adapter);
         getGroupData();
 
-        try {
-            Glide.with(this).load(R.drawable.statistics).into((ImageView) view.findViewById(R.id.backdrop));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return view;
     }
     /**
