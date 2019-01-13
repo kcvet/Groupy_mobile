@@ -97,7 +97,7 @@ public class Tab3Fragment extends Fragment {
                 place_to_visit = jsonobject.getString("place_to_visit");
                 photo = jsonobject.getString("group_photo");
                 id = jsonobject.getInt("ID_GROUP");
-                Card a = new Card(name, Integer.parseInt(number_of_people), covers[0], group_description, place_to_visit, place_to_stay, photo, id);
+                Card a = new Card(name, Integer.parseInt(number_of_people), covers[0], group_description, place_to_visit, place_to_stay, photo, id, false);
                 albumList.add(a);
             }catch(Exception e){
                 System.out.println("NAPAKA");
